@@ -1,3 +1,3 @@
 # jenkins_test
 assignment
-ngrok_setup successful
+ngrok_setup success
