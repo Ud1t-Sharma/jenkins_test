@@ -2,24 +2,27 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
+        stage('Build Start') {
             steps {
-                echo '🏗️ Building the project...'
+                slackSend (message: "🚀 Build started for *${env.JOB_NAME}* [#${env.BUILD_NUMBER}]")
+                echo 'Build Started'
             }
         }
-        stage('Test') {
+
+        stage('Build') {
             steps {
-                echo '✅ Running tests...'
+                // your build steps here
+                echo 'Running build steps...'
             }
         }
     }
 
     post {
         success {
-            echo '🎉 Build succeeded!'
+            slackSend (message: "✅ Build SUCCESS for *${env.JOB_NAME}* [#${env.BUILD_NUMBER}]")
         }
         failure {
-            echo '❌ Build failed.'
+            slackSend (message: "❌ Build FAILED for *${env.JOB_NAME}* [#${env.BUILD_NUMBER}]")
         }
     }
 }
