@@ -1,17 +1,26 @@
 pipeline {
     agent any
 
+    environment {
+        SLACK_CHANNEL = '#swim' // Replace with your Slack channel
+        SLACK_CREDENTIAL_ID = 'swim-channel' // Add this in Jenkins Credentials
+    }
+
     stages {
         stage('Build Start') {
             steps {
-                slackSend (message: "🚀 Build started for *${env.JOB_NAME}* [#${env.BUILD_NUMBER}]")
+                slackSend (
+                    channel: env.SLACK_CHANNEL,
+                    color: '#439FE0',
+                    message: "🚀 Build started for *${env.JOB_NAME}* [#${env.BUILD_NUMBER}]",
+                    tokenCredentialId: env.SLACK_CREDENTIAL_ID
+                )
                 echo 'Build Started'
             }
         }
 
         stage('Build') {
             steps {
-                // your build steps here
                 echo 'Running build steps...'
             }
         }
@@ -19,10 +28,20 @@ pipeline {
 
     post {
         success {
-            slackSend (message: "✅ Build SUCCESS for *${env.JOB_NAME}* [#${env.BUILD_NUMBER}]")
+            slackSend (
+                channel: env.SLACK_CHANNEL,
+                color: 'good',
+                message: "✅ Build SUCCESS for *${env.JOB_NAME}* [#${env.BUILD_NUMBER}]",
+                tokenCredentialId: env.SLACK_CREDENTIAL_ID
+            )
         }
         failure {
-            slackSend (message: "❌ Build FAILED for *${env.JOB_NAME}* [#${env.BUILD_NUMBER}]")
+            slackSend (
+                channel: env.SLACK_CHANNEL,
+                color: 'danger',
+                message: "❌ Build FAILED for *${env.JOB_NAME}* [#${env.BUILD_NUMBER}]",
+                tokenCredentialId: env.SLACK_CREDENTIAL_ID
+            )
         }
     }
 }
