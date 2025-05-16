@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        SLACK_CHANNEL = '#swim' // Replace with your Slack channel
-        SLACK_CREDENTIAL_ID = 'swim-channel' // Add this in Jenkins Credentials
+        SLACK_CHANNEL = '#udit-sharmac' // Replace with your Slack channel
+        SLACK_CREDENTIAL_ID = 'udit-secret' // Add this in Jenkins Credentials
     }
 
     stages {
